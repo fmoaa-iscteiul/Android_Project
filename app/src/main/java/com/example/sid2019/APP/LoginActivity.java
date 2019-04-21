@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.view.LayoutInflater;
 import com.example.sid2019.APP.Connection.ConnectionHandler;
 import com.example.sid2019.APP.Helper.UserLogin;
 import com.example.sid2019.R;
@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loginClick(View v) {
 
         String validateLogin = "http://" + ip.getText() + ":" + port.getText() + "/phpmyadmin/doc/Android/validateLogin.php";
+        //Usar IP = 10.0.2.2
 
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username.getText().toString());
@@ -70,11 +71,18 @@ public class LoginActivity extends AppCompatActivity {
             new UserLogin(ip.getText().toString(), port.getText().toString(), username.getText().toString(), password.getText().toString());
 
 
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this  , MainActivity.class);
             startActivity(i);
             finish();
         } else {
-            new AlertDialog.Builder(v.getContext()).setMessage("Ocorreu um erro!").show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            View view = LayoutInflater.from(LoginActivity.this).inflate(R.layout.custom_alert, null);
+
+            builder.setView(view);
+            builder.show();
+
+            //new AlertDialog.Builder(v.getContext()).setMessage("Ocorreu um erro!").show();
 
 
         }
