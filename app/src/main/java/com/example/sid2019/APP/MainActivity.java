@@ -27,15 +27,15 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    //Dados guardados do login
     private static final String IP = UserLogin.getInstance().getIp();
     private static final String PORT = UserLogin.getInstance().getPort();
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
     Spinner spinner;
     DatabaseHandler db = new DatabaseHandler(this);
-    String getCulturasOfInvestigador = "http://" + IP + ":" + PORT + "/scripts/getCulturasOfUser.php";
-    String getInformacaoCultura = "http://" + IP + ":" + PORT + "/scripts/getInformacaoCultura.php";
+    String getCulturasOfInvestigador = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getCulturasOfUser.php";
+    String getInformacaoCultura = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getInformacaoCultura.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Ir buscar as culturas do investigador em questão
     private void getCulturasAvailable(){
         db.clearIds();
         db.clearCultura();
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         params.put("username", username);
         params.put("password", password);
         ConnectionHandler jParser = new ConnectionHandler();
+        //Usar php para ir buscar as culturas
         JSONArray culturasOfInvestigador = jParser.getJSONFromUrl(getCulturasOfInvestigador, params);
         try {
         if (culturasOfInvestigador != null){
@@ -102,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Atualizar informação da cultura selecionada
     public void refreshButton(View v){
         if (spinner.getSelectedItem()!=null){
         String selectedCulture = spinner.getSelectedItem().toString();
