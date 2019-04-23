@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginClick(View v) {
 
         String validateLogin = "http://" + ip.getText() + ":" + port.getText() + "/phpmyadmin/doc/Android/validateLogin.php";
-        //Usar IP = 10.0.2.2
 
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username.getText().toString());
