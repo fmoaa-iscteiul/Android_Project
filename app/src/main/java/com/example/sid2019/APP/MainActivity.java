@@ -64,12 +64,14 @@ public class MainActivity extends AppCompatActivity {
         params.put("password", password);
         ConnectionHandler jParser = new ConnectionHandler();
         //Usar php para ir buscar as culturas
+        String getCulturasOfInvestigador = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getCulturasOfInvestigador.php";
         JSONArray culturasOfInvestigador = jParser.getJSONFromUrl(getCulturasOfInvestigador, params);
         try {
         if (culturasOfInvestigador != null){
             for (int i=0;i< culturasOfInvestigador.length();i++){
                 JSONObject c = culturasOfInvestigador.getJSONObject(i);
-                int idCultura = c.getInt("idCultura");
+                int idCultura = c.getInt("IDCultura");
+                System.out.println("->>>>>>>>>>>>>>>>>>>>>>" + idCultura);
                 db.insert_available_id(idCultura);
             }
         }
@@ -112,15 +114,15 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
-        params.put("idCultura",selectedCulture);
+        params.put("IDCultura",selectedCulture);
         ConnectionHandler jParser = new ConnectionHandler();
         JSONArray informacaoCultura = jParser.getJSONFromUrl(getInformacaoCultura, params);
             try {
                 if (informacaoCultura != null){
                     for (int i=0;i< informacaoCultura.length();i++){
                         JSONObject c = informacaoCultura.getJSONObject(i);
-                        String nomeCultura = c.getString("nomeCultura");
-                        String descricaoCultura = c.getString("descricaoCultura");
+                        String nomeCultura = c.getString("NomeCultura");
+                        String descricaoCultura = c.getString("DescricaoCultura");
                         db.insert_Cultura(Integer.parseInt(selectedCulture),nomeCultura,descricaoCultura);
                     }
                 }
