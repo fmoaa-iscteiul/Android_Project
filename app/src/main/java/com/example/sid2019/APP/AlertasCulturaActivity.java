@@ -94,7 +94,7 @@ public class AlertasCulturaActivity extends AppCompatActivity {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("username", username);
                 params.put("password", password);
-                params.put("idCultura",selectedCulture);
+                params.put("IDCultura",selectedCulture);
                 ConnectionHandler jParser = new ConnectionHandler();
                 JSONArray informacaoCultura = jParser.getJSONFromUrl(getInformacaoCultura, params);
                 try {

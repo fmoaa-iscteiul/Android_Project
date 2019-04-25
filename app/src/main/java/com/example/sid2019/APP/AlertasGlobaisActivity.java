@@ -29,7 +29,7 @@ public class AlertasGlobaisActivity extends AppCompatActivity {
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
     DatabaseHandler db = new DatabaseHandler(this);
-    String getAlertasGlobais = "http://" + IP + ":" + PORT + "/scripts/getAlertasGlobais.php";
+    String getAlertasGlobais = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getAlertasGlobais.php";
     int year;
     int month;
     int day;
@@ -98,7 +98,7 @@ public class AlertasGlobaisActivity extends AppCompatActivity {
             if(medicoesTemperatura!=null){
                 for (int i=0;i< medicoesTemperatura.length();i++){
                     JSONObject c = medicoesTemperatura.getJSONObject(i);
-                    String dataHoraMedicao = c.getString("DataHora");
+                    String dataHoraMedicao = c.getString("DataHoraAlerta");
                     String nomeVariavel = c.getString("NomeVariavel");
                     double limiteInferior = c.getDouble("LimiteInferior");
                     double limiteSuperior = c.getDouble("LimiteSuperior");

@@ -38,8 +38,8 @@ public class GlobaisActivity extends AppCompatActivity {
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
 
-    String getMedicoesTemperatura = "http://" + IP + ":" + PORT + "/scripts/getMedicoesTemperatura.php";
-    String getMedicoesLuz = "http://" + IP + ":" + PORT + "/scripts/getMedicoesLuz.php";
+    String getMedicoesTemperatura = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getMedicoesTemperatura.php";
+    String getMedicoesLuz = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getMedicoesLuz.php";
     DatabaseHandler db = new DatabaseHandler(this);
 
     @Override
@@ -116,9 +116,14 @@ public class GlobaisActivity extends AppCompatActivity {
             String dataHoraMedicao =  cursorTemperatura.getString(cursorTemperatura.getColumnIndex("DataHoraMedicao"));
             try {
                 Date date = format.parse(dataHoraMedicao);
+                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ data da medição: " + date.toString());
                 long pointLong = date.getTime();
+                System.out.println("                                       VALOR DAS MEDIÇOES LUZ currrent long: " + currentLong + "      pointlong:  " + pointLong);
                 long difference = currentLong - pointLong;
+                System.out.println("                                       VALOR DAS MEDIÇOES LUZ diferença: " + TimeUnit.MILLISECONDS.toSeconds(difference));
                 double seconds = 300 - TimeUnit.MILLISECONDS.toSeconds(difference);
+                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ segundos: " + seconds);
+                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ: " + valorMedicaoTemperatura);
                 datapointsTemperatura[helper]=new DataPoint(seconds,valorMedicaoTemperatura);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -131,7 +136,9 @@ public class GlobaisActivity extends AppCompatActivity {
         helper = 0;
         while (cursorLuz.moveToNext()){
             Integer valorMedicaoLuz = cursorLuz.getInt(cursorLuz.getColumnIndex("Luz"));
+            System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ: " + valorMedicaoLuz);
             String dataHoraMedicao =  cursorLuz.getString(cursorLuz.getColumnIndex("DataHoraMedicao"));
+            System.out.println("                                                                    DATA MEDIÇOES LUZ: " + dataHoraMedicao);
             try {
                 Date date = format.parse(dataHoraMedicao);
                 long pointLong = date.getTime();
@@ -147,7 +154,7 @@ public class GlobaisActivity extends AppCompatActivity {
 
         graphTemperatura.getViewport().setXAxisBoundsManual(true);
         graphTemperatura.getViewport().setMinX(0);
-        graphTemperatura.getViewport().setMaxX(300);
+        graphTemperatura.getViewport().setMaxX(4000);
         LineGraphSeries<DataPoint> seriesTemperatura = new LineGraphSeries<>(datapointsTemperatura);
         seriesTemperatura.setColor(Color.RED);
         seriesTemperatura.setTitle("Temperatura");
@@ -161,9 +168,11 @@ public class GlobaisActivity extends AppCompatActivity {
 
 
 
+
         graphLuz.getViewport().setXAxisBoundsManual(true);
         graphLuz.getViewport().setMinX(0);
-        graphLuz.getViewport().setMaxX(300);
+        graphLuz.getViewport().setMaxX(4000);
+        graphLuz.getViewport().setDrawBorder(true);
         LineGraphSeries<DataPoint> seriesLuz = new LineGraphSeries<>(datapointsLuz);
         seriesLuz.setColor(Color.YELLOW);
         seriesLuz.setTitle("Luminosidade");
