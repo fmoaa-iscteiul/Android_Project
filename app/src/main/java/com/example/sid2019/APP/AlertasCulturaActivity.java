@@ -33,8 +33,8 @@ public class AlertasCulturaActivity extends AppCompatActivity {
     private static final String username= UserLogin.getInstance().getUsername();
     private static final String password = UserLogin.getInstance().getPassword();
     DatabaseHandler db = new DatabaseHandler(this);
-    String getAlertasCultura = "http://" + IP + ":" + PORT + "/scripts/getAlertasCultura.php";
-    String getInformacaoCultura = "http://" + IP + ":" + PORT + "/scripts/getInformacaoCultura.php";
+    String getAlertasCultura = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getAlertasCultura.php";
+    String getInformacaoCultura = "http://" + IP + ":" + PORT + "/phpmyadmin/doc/Android/getInformacaoCultura.php";
     int year;
     int month;
     int day;
@@ -101,8 +101,8 @@ public class AlertasCulturaActivity extends AppCompatActivity {
                     if (informacaoCultura != null){
                         for (int i=0;i< informacaoCultura.length();i++){
                             JSONObject c = informacaoCultura.getJSONObject(i);
-                            String nomeCultura = c.getString("nomeCultura");
-                            String descricaoCultura = c.getString("descricaoCultura");
+                            String nomeCultura = c.getString("NomeCultura");
+                            String descricaoCultura = c.getString("DescricaoCultura");
                             db.insert_Cultura(Integer.parseInt(selectedCulture),nomeCultura,descricaoCultura);
                         }
                     }
@@ -152,7 +152,7 @@ public class AlertasCulturaActivity extends AppCompatActivity {
                 if (medicoesTemperatura != null) {
                     for (int i = 0; i < medicoesTemperatura.length(); i++) {
                         JSONObject c = medicoesTemperatura.getJSONObject(i);
-                        String dataHoraMedicao = c.getString("DataHora");
+                        String dataHoraMedicao = c.getString("DataHoraAlerta");
                         String nomeVariavel = c.getString("NomeVariavel");
                         double limiteInferior = c.getDouble("LimiteInferior");
                         double limiteSuperior = c.getDouble("LimiteSuperior");
