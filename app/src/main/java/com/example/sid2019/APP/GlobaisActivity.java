@@ -104,7 +104,11 @@ public class GlobaisActivity extends AppCompatActivity {
         DatabaseReader dbReader = new DatabaseReader(db);
         Cursor cursorTemperatura = dbReader.readMedicoesTemperatura();
         Cursor cursorLuz = dbReader.readMedicoesLuz();
-        Date currentTimestamp = new Date();
+
+
+        Date currentTimestamp = new Date(System.currentTimeMillis() + 3600 * 1000);  //atenção: em alguns pc poderá ter de utilizador a linha em baixo em vez desta, verificar o print que é feito 2 linhas à frente
+        //Date currentTimestamp = new Date();
+        System.out.println("Data atual:  " + currentTimestamp.toString());
         long currentLong = currentTimestamp.getTime();
 
         DataPoint[] datapointsTemperatura = new DataPoint[cursorTemperatura.getCount()];
@@ -116,14 +120,9 @@ public class GlobaisActivity extends AppCompatActivity {
             String dataHoraMedicao =  cursorTemperatura.getString(cursorTemperatura.getColumnIndex("DataHoraMedicao"));
             try {
                 Date date = format.parse(dataHoraMedicao);
-                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ data da medição: " + date.toString());
                 long pointLong = date.getTime();
-                System.out.println("                                       VALOR DAS MEDIÇOES LUZ currrent long: " + currentLong + "      pointlong:  " + pointLong);
-                long difference = currentLong - pointLong;
-                System.out.println("                                       VALOR DAS MEDIÇOES LUZ diferença: " + TimeUnit.MILLISECONDS.toSeconds(difference));
+                long difference = (currentLong - pointLong);
                 double seconds = 300 - TimeUnit.MILLISECONDS.toSeconds(difference);
-                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ segundos: " + seconds);
-                System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ: " + valorMedicaoTemperatura);
                 datapointsTemperatura[helper]=new DataPoint(seconds,valorMedicaoTemperatura);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -136,9 +135,7 @@ public class GlobaisActivity extends AppCompatActivity {
         helper = 0;
         while (cursorLuz.moveToNext()){
             Integer valorMedicaoLuz = cursorLuz.getInt(cursorLuz.getColumnIndex("Luz"));
-            System.out.println("                                                                    VALOR DAS MEDIÇOES LUZ: " + valorMedicaoLuz);
             String dataHoraMedicao =  cursorLuz.getString(cursorLuz.getColumnIndex("DataHoraMedicao"));
-            System.out.println("                                                                    DATA MEDIÇOES LUZ: " + dataHoraMedicao);
             try {
                 Date date = format.parse(dataHoraMedicao);
                 long pointLong = date.getTime();
@@ -154,7 +151,7 @@ public class GlobaisActivity extends AppCompatActivity {
 
         graphTemperatura.getViewport().setXAxisBoundsManual(true);
         graphTemperatura.getViewport().setMinX(0);
-        graphTemperatura.getViewport().setMaxX(4000);
+        graphTemperatura.getViewport().setMaxX(300);
         LineGraphSeries<DataPoint> seriesTemperatura = new LineGraphSeries<>(datapointsTemperatura);
         seriesTemperatura.setColor(Color.RED);
         seriesTemperatura.setTitle("Temperatura");
@@ -171,10 +168,10 @@ public class GlobaisActivity extends AppCompatActivity {
 
         graphLuz.getViewport().setXAxisBoundsManual(true);
         graphLuz.getViewport().setMinX(0);
-        graphLuz.getViewport().setMaxX(4000);
+        graphLuz.getViewport().setMaxX(300);
         graphLuz.getViewport().setDrawBorder(true);
         LineGraphSeries<DataPoint> seriesLuz = new LineGraphSeries<>(datapointsLuz);
-        seriesLuz.setColor(Color.YELLOW);
+        seriesLuz.setColor(Color.BLUE);
         seriesLuz.setTitle("Luminosidade");
         StaticLabelsFormatter staticLabelsFormatter2 = new StaticLabelsFormatter(graphLuz);
         staticLabelsFormatter2.setHorizontalLabels(new String[] {"300", "250","200","150","100","50","0"});

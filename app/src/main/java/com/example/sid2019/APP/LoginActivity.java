@@ -45,7 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         port.setText(myPrefs.getString("port",""));
         username.setText(myPrefs.getString("username",""));
         password.setText(myPrefs.getString("password",""));
-
     }
 
 
